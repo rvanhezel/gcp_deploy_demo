@@ -1,0 +1,21 @@
+[project]
+name = "gcp-deploy-demo"
+version = "0.1"
+description = "Trading bot to deploy on GCP"
+authors = [
+    {name = "Raoul van Hezel",email = "r.vanhezel@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13, <4.0.0"
+dependencies = [
+    "pandas (>=2.2.3,<3.0.0)",
+    "python-dotenv (>=1.0.1,<2.0.0)",
+    "holidays (>=0.66,<0.67)",
+    "twelvedata (>=1.2.24,<2.0.0)",
+    "alpaca-py (>=0.38.0,<0.39.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

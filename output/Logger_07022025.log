@@ -1,0 +1,4 @@
+07/02/2025 11:54:07.525 - INFO - Logger initialized
+07/02/2025 11:54:07.526 - INFO - Successfully connected to Alpaca client.
+07/02/2025 11:54:07.552 - DEBUG - Time is now 2025-02-07 05:54:07.550798-05:00. Market opens at 2025-02-07 09:00:00-05:00 and closes at 2025-02-07 16:30:00-05:00
+07/02/2025 11:54:07.552 - INFO - Exiting run
