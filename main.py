@@ -18,7 +18,6 @@ if __name__ == '__main__':
     Logger()
     cfg = Configuration('run.cfg')
 
-    market_data = pd.DataFrame()
     broker_api = AlpacaAPI()
     broker_api.connect()    
         
@@ -38,21 +37,26 @@ if __name__ == '__main__':
             16, 
             30,
             tz=cfg.timezone)
-    
-    latest_md_time = today_open
+        
     md_time_lag = Period('10min')
     ticker = 'TSLA'
 
+    market_data = load_market_data(
+        ticker, 
+        cfg.tick_interval, 
+        today_open - pd.Timedelta(days=1), 
+        today_close - pd.Timedelta(days=1),
+        cfg.timezone)
+
+
     while today_open < now < today_close:
         logging.debug(f'Time is now {now}. Can trade')
-        
-        if market_data.empty:
-            latest_md_time = today_open
-        else:
-            latest_md_time = market_data.index.max()
 
-        if now - latest_data < pd.Timedelta(str(md_time_lag)):
-            time_to_sleep = (now - latest_data).total_seconds()
+        latest_md_time = market_data.index.max()
+
+        if now - latest_md_time < pd.Timedelta(str(md_time_lag)):
+            time_elapsed = (now - latest_data).total_seconds()
+            time_to_sleep = pd.Timedelta(str(md_time_lag)).total_seconds() - time_elapsed
             logging.info(f"Sleeping for {time_to_sleep/60} mins")
             time.sleep(time_to_sleep)   
         
@@ -65,7 +69,7 @@ if __name__ == '__main__':
         market_data = pd.concat([market_data, latest_data], axis=0)
         market_data.drop_duplicates(inplace=True)
         market_data.sort_index(ascending=False, inplace=True)
-        
+
         print(market_data.head(15))
 
         current_price = market_data['close'].iloc[-1]

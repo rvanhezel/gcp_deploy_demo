@@ -25,6 +25,8 @@ def load_market_data(ticker,
             timezone=timezone
         ).as_pandas()
 
+        data.index = data.index.tz_localize(timezone)
+
         return data
 
 
